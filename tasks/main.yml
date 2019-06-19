@@ -1,12 +1,4 @@
 ---
-- name: Allow admin group sudo without password
-  lineinfile:
-    path: /etc/sudoers
-    state: present
-    regexp: '^%admin ALL='
-    line: '%admin ALL=(ALL) NOPASSWD: ALL'
-    validate: '/usr/sbin/visudo -cf %s'
-  tags: ["users", "groups", "configuration"]
 
 - name: Creating groups
   group: name="{{ item.name }}" gid="{{ item.gid | default(omit) }}"
