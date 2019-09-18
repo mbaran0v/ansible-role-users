@@ -30,6 +30,14 @@
   with_items: "{{ users }}"
   tags: ["users", "configuration"]
 
+- name: clear old SSH keys
+  file:
+    path: "{{ item.home | default('/home/' + item.username)  }}/.ssh/authorized_keys"
+    state: absent
+  with_items: "{{ users }}"
+  when: keep_only_specified_keys|bool
+  tags: ["users", "configuration"]
+
 - name: SSH keys
   authorized_key:
     user: "{{ item.0.username }}"
